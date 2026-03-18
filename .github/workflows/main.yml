@@ -1,26 +1,31 @@
-name: ETF BOT
+name: Run ETF Script
 
+# Esegue tutti i giorni lun-ven alle 18:30 UTC+2 e permette avvio manuale
 on:
   schedule:
-    - cron: '30 17 * * 1-5'
+    - cron: '30 16 * * 1-5'  # 18:30 ora italiana = 16:30 UTC
   workflow_dispatch:
 
 jobs:
-  run-script:
+  run-etf-script:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+      # Step 1: Prendi i file dalla repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+      # Step 2: Setup Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
 
-    - name: Install dependencies
-      run: |
-        pip install gspread oauth2client requests beautifulsoup4
+      # Step 3: Installa le dipendenze necessarie
+      - name: Install dependencies
+        run: |
+          pip install gspread oauth2client requests
 
-    - name: Run script
-      run: python Python Script/investing_etf_update.py
+      # Step 4: Esegui lo script
+      - name: Run ETF script
+        run: python "Python Script/investing_etf_update.py"
