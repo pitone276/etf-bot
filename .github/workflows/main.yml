@@ -1,19 +1,27 @@
 name: Run ETF Script
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # permette di avviare manualmente dallo smartphone o dal web
 
 jobs:
   run-script:
     runs-on: ubuntu-latest
     env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  # evita warning Node.js 20
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      # 1️⃣ Recupera i file della repo
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # 2️⃣ Installa Python 3.11
+      - name: Setup Python
+        uses: actions/setup-python@v4
         with:
           python-version: '3.11'
+
+      # 3️⃣ Installa le librerie richieste
       - name: Install dependencies
-        run: pip install -r requirements.txt
-      - name: Run Python script
-        run: python python_script/investing_etf_update.py
+        run: |
+          pip install --upgrade pip
+          pip install -r python_script/requirements.txt
