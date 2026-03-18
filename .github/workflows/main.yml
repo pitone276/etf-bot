@@ -1,27 +1,32 @@
 name: Run ETF Script
 
 on:
-  workflow_dispatch:  # permette di avviare manualmente dallo smartphone o dal web
+  workflow_dispatch:  # permette di avviare manualmente
 
 jobs:
   run-script:
     runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  # evita warning Node.js 20
 
     steps:
-      # 1️⃣ Recupera i file della repo
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      # 1. Scarica il contenuto della repo
+      - uses: actions/checkout@v3
 
-      # 2️⃣ Installa Python 3.11
-      - name: Setup Python
+      # 2. Imposta Python 3.11
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: 3.11
 
-      # 3️⃣ Installa le librerie richieste
+      # 3. Installa le librerie necessarie
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install -r python_script/requirements.txt
+          pip install gspread oauth2client requests beautifulsoup4
+
+      # 4. Controllo rapido dei file nella repo (debug)
+      - name: Debug - list files
+        run: ls -R python_script/
+
+      # 5. Esegui lo script Python
+      - name: Run ETF script
+        run: python python_script/investing
