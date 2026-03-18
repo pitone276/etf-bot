@@ -1,27 +1,33 @@
 name: Run ETF Script
 
+# Permette sia esecuzione programmata sia manuale
 on:
-  workflow_dispatch:  # permette di avviare manualmente dallo smartphone o dal web
+  workflow_dispatch:   # permette avvio manuale
+  schedule:
+    - cron: '30 18 * * 1-5'  # ogni giorno alle 18:30 dal lunedì al venerdì (UTC!)
 
 jobs:
   run-script:
     runs-on: ubuntu-latest
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true  # evita warning Node.js 20
 
     steps:
-      # 1️⃣ Recupera i file della repo
+      # 1️⃣ Scarica il contenuto della repo
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2️⃣ Installa Python 3.11
+      # 2️⃣ Setup Python
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: '3.11'  # puoi cambiare versione se vuoi
 
-      # 3️⃣ Installa le librerie richieste
+      # 3️⃣ Installa le dipendenze necessarie
       - name: Install dependencies
         run: |
-          pip install --upgrade pip
-          pip install -r python_script/requirements.txt
+          python -m pip install --upgrade pip
+          pip install gspread oauth2client requests beautifulsoup4
+
+      # 4️⃣ Esegui lo script
+      - name: Run ETF Python script
+        run: |
+          python python_script/investing_etf_update.py
