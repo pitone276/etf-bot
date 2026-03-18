@@ -1,7 +1,4 @@
-name: List files
-run: ls -R
-
-
+name: Run ETF Script
 
 on:
   workflow_dispatch:  # permette di avviare manualmente dallo smartphone o dal web
