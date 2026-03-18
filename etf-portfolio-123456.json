@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "etfportfolioapi",
+  "private_key_id": "e43822651df9ee10c3c412374b8db589a80ca40e",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCqq52VpE/MTVNU\nQxQw+70MtkddlKSlv6B8KMvV7UBUJYrsfbU/85VQzVh8tui4wWsA0sCfDcHgiAUA\nsS6mVJqGXA4SG6V2FyeeCJJMG9yvL2traPP+OMC/ESf9rii4PUUXYcASB8+YRaP7\ndo7W6Sb76eYMaAgadwrqvt6PZ7cGbNxIq8flLUv5zGp3wTMBH3YEle1KgMzQy8wA\nV4yu6VWVszTEt0d84boTq+9Wp9x6v0Czz4vr2ojRaq9pz/gVPYTCuxxAcSv014/U\ny79YM1GeAwF/5PNGJSRyPuWZNmayc0AlPVeC5jCLbPKxyuaQGb2MCTk0uS/SLFIx\nHpX0NqjFAgMBAAECggEACOWubuUkddGYJP3kORN+jQGZodLEbJGbU62qxqm6H0jf\nv6lkAAP6Rj6WPNYqNqt6oQ3blc8ZStO8cwdJl8k0TwnQf/gp/YiCe7YVrlsLe6R8\ntJpBkgCyZ6OE0rA4Fja3edsSML5wf48t18eb9a8s5ZgRcpcfyQVor8kogBBXlcGU\nNG+T2dM/K0CoSzg8/scFc7KimgJwM8ipK5d5pAdCruEJCsaHeENv+w+DacQkgbYJ\npJZRIOpcXQiLgD4ZZMGzheeEmAmcd+UWlAv3lbxOHNqxA0sI1d0ViPMbGDolow0P\nU5aGHSPEZ6yAvWK15alVopQXeSXJuaALUEkBA7Tl1wKBgQDhzuDso4eE1OVqlg26\nuYnHiXQhZFRrQ85qe0b2+ENeKxwSP1lINv3R/NF9w3J+BjP5QUaQqDUZa7ekNxYH\n9OOBwK13bYo9qJA8vm2hapCxif1n1OXiGoH8uBTmErO5s+fudFYNM8BWtT0Xj+/+\nbGQ75ubPp0ErQE2olBTQwH4iJwKBgQDBfXFeNGo+/tnFVSqhc+ejaY3mE5QIES1q\nMVtF6YiT74nEAqVGb18JW8ovilM1VFIUopsiz2RzE6hJ5LdXuoOTxAuVWLZptUCC\nBW4RNl0QT+fwEF+uKE8XPW6EzUOhxwGH95L6dV8Ol5bkUdB4Y+g2Txjka7FslG9I\ncP4iNmMtMwKBgBcE+QcGsLUI4w5Xl7S2X2ZZC96vlK+OrQdL4/MfYfbCnEz76kUj\nXgK/LDgO6agRR9EcJ25tx2P9CC6UcwmCnILIuqZXI2WfvnyCyThQXcnLkGq6WGkR\nXLj/pxnBRFMlFPrJH1CfOvdb6ItzX/rm39z/b/4xRcJ7/q610d1qEjG3AoGBALGa\nb4FFI3EHhOU5M5RXS3wX24Qg3HQ7MDCVdW5K2m7QJOiidQqeF+IDOydAFPiSmXUP\nfM8LBu0KUiLhqdkA/t2XyfogH/APy1KNoWZzPCFI92DH5st5fH+ch+GmeDn67VDc\n0zDKo6JFSt/wqSaYrgGLwRGKOKWt6ifYb6z/tzE5AoGAfQmzdFr4H63r2mo246Xu\nPrxxKaQyZdkzjNYCyWAtb8LpFFcjnBvqKlDvBFPgyZCFAhuQPRLoflIRUQQp1fZ0\nXbhj//uHLLmBzlFumAaI+tQ3HQ/nxinI+zjq22eM5D1IqDRPG/kvcsWZHkISIejV\n270mWDtwaWpgXGTxcOtfAp8=\n-----END PRIVATE KEY-----\n",
+  "client_email": "etf-sheet-bot@etfportfolioapi.iam.gserviceaccount.com",
+  "client_id": "100364692103480672973",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/etf-sheet-bot%40etfportfolioapi.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
