@@ -23,4 +23,4 @@ jobs:
         pip install gspread oauth2client requests beautifulsoup4
 
     - name: Run script
-      run: python investing_etf_update.py
+      run: python Python Script/investing_etf_update.py
