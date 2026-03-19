@@ -1,9 +1,6 @@
-import gspread
+import csv
 import requests
 from bs4 import BeautifulSoup
-
-# ---------------- CONFIG ----------------
-SPREADSHEET_ID = '1Q0N4f5rY55FgLNLQnpHJKuPjxZshFLOH4PilTa45DPA'
 
 ETF_LIST = [
     {"ticker": "DFE", "url": "https://it.investing.com/etfs/wisdomtree-europe-smallcap"},
@@ -34,42 +31,32 @@ ETF_LIST = [
     {"ticker": "VAGE", "url": "https://it.investing.com/etfs/vage"}
 ]
 
-# ---------------- GOOGLE SHEETS SENZA LOGIN ----------------
-gc = gspread.Client(None)
-sheet = gc.open_by_key(SPREADSHEET_ID).sheet1
-
-# ---------------- FUNZIONE PREZZO ----------------
 def get_price_and_change(url):
     try:
         headers = {'User-Agent': 'Mozilla/5.0'}
         r = requests.get(url, headers=headers)
         soup = BeautifulSoup(r.text, 'html.parser')
-        
+
         price_tag = soup.find('span', {'data-test': 'instrument-price-last'})
         var_tag = soup.find('span', {'data-test': 'instrument-price-change-percent'})
-        
-        if not price_tag:
-            price_tag = soup.select_one('.top.bold.inlineblock')
-        if not var_tag:
-            var_tag = soup.select_one('.arial_20.greenFont, .arial_20.redFont')
-        
+
         price = price_tag.text.strip() if price_tag else 'N/A'
         var_pct = var_tag.text.strip() if var_tag else 'N/A'
-        
+
         return price, var_pct
     except:
         return 'N/A', 'N/A'
 
-# ---------------- CICLO PRINCIPALE ----------------
-for i, etf in enumerate(ETF_LIST, start=2):
-    ticker = etf['ticker']
-    url = etf['url']
-    price, var_pct = get_price_and_change(url)
-    
-    sheet.update(range_name=f"A{i}", values=[[ticker]])
-    sheet.update(range_name=f"B{i}", values=[[price]])
-    sheet.update(range_name=f"C{i}", values=[[var_pct]])
-    
-    print(f"{ticker}: {price} ({var_pct})")
+rows = [["Ticker", "Prezzo", "Variazione"]]
+
+for etf in ETF_LIST:
+    price, var_pct = get_price_and_change(etf["url"])
+    rows.append([etf["ticker"], price, var_pct])
+    print(f"{etf['ticker']}: {price} ({var_pct})")
+
+with open("etf_data.csv", "w", newline="", encoding="utf-8") as f:
+    writer = csv.writer(f)
+    writer.writerows(rows)
+
 
 
