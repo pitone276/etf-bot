@@ -1,6 +1,7 @@
 import csv
 import requests
 from bs4 import BeautifulSoup
+from datetime import datetime
 
 ETF_LIST = [
     {"ticker": "DFE", "url": "https://it.investing.com/etfs/wisdomtree-europe-smallcap"},
@@ -33,19 +34,23 @@ ETF_LIST = [
 
 def get_price_and_change(url):
     try:
-        headers = {'User-Agent': 'Mozilla/5.0'}
-        r = requests.get(url, headers=headers)
-        soup = BeautifulSoup(r.text, 'html.parser')
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
+            "Accept-Language": "it-IT,it;q=0.9,en-US;q=0.8,en;q=0.7",
+            "Referer": "https://www.google.com/"
+        }
+        r = requests.get(url, headers=headers, timeout=10)
+        soup = BeautifulSoup(r.text, "html.parser")
 
-        price_tag = soup.find('span', {'data-test': 'instrument-price-last'})
-        var_tag = soup.find('span', {'data-test': 'instrument-price-change-percent'})
+        price_tag = soup.find("span", {"data-test": "instrument-price-last"})
+        var_tag = soup.find("span", {"data-test": "instrument-price-change-percent"})
 
-        price = price_tag.text.strip() if price_tag else 'N/A'
-        var_pct = var_tag.text.strip() if var_tag else 'N/A'
+        price = price_tag.text.strip() if price_tag else "N/A"
+        var_pct = var_tag.text.strip() if var_tag else "N/A"
 
         return price, var_pct
-    except:
-        return 'N/A', 'N/A'
+    except Exception:
+        return "N/A", "N/A"
 
 rows = [["Ticker", "Prezzo", "Variazione"]]
 
@@ -54,9 +59,10 @@ for etf in ETF_LIST:
     rows.append([etf["ticker"], price, var_pct])
     print(f"{etf['ticker']}: {price} ({var_pct})")
 
+rows.append(["Aggiornato", datetime.now().strftime("%Y-%m-%d %H:%M:%S"), ""])
+
 with open("etf_data.csv", "w", newline="", encoding="utf-8") as f:
     writer = csv.writer(f, delimiter=",")
     writer.writerows(rows)
-
 
 
