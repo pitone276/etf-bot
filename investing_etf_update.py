@@ -1,7 +1,13 @@
 import gspread
 import requests
 from bs4 import BeautifulSoup
-from oauth2client.service_account import ServiceAccountCredentials
+from google.oauth2.service_account import Credentials
+import gspread
+
+scope = ["https://www.googleapis.com/auth/spreadsheets"]
+creds = Credentials.from_service_account_file("etf_portfolio_123456.json", scopes=scope)
+gc = gspread.authorize(creds)
+
 
 # ---------------- CONFIG ----------------
 from pathlib import Path
