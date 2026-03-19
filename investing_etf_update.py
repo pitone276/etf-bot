@@ -4,7 +4,10 @@ from bs4 import BeautifulSoup
 from oauth2client.service_account import ServiceAccountCredentials
 
 # ---------------- CONFIG ----------------
-SERVICE_ACCOUNT_FILE = "etf_portfolio_123456.json"
+from pathlib import Path
+
+BASE = Path(__file__).resolve().parent
+SERVICE_ACCOUNT_FILE = BASE / "etf_portfolio_123456.json"
 SPREADSHEET_ID = '1Q0N4f5rY55FgLNLQnpHJKuPjxZshFLOH4PilTa45DPA'  # ID del tuo Google Sheet
 
 ETF_LIST = [
