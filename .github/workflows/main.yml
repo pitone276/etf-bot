@@ -1,30 +1,38 @@
-name: Investing ETF update
+name: ETF Bot
 
 on:
-  schedule:
-    - cron: '30 17 * * 1-5'
   workflow_dispatch:
+  schedule:
+    - cron: "0 8 * * *"   # ogni giorno alle 08:00
+
+permissions:
+  contents: write   # NECESSARIO per fare commit
 
 jobs:
-  run-script:
+  run-bot:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install dependencies
-        run: |
-          pip install --upgrade pip
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
 
-      - name: Create service_account.json
-        run: echo "${{ secrets.SERVICE_ACCOUNT_JSON }}" > service_account.json
-
-      - name: Run script
+      - name: Run ETF script
         run: python investing_etf_update.py
+
+      - name: Commit CSV
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add etf_data.csv
+          git commit -m "Update ETF CSV" || echo "Nessun cambiamento da committare"
+          git push
