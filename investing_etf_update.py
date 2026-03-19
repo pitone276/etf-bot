@@ -55,7 +55,7 @@ for etf in ETF_LIST:
     print(f"{etf['ticker']}: {price} ({var_pct})")
 
 with open("etf_data.csv", "w", newline="", encoding="utf-8") as f:
-    writer = csv.writer(f)
+    writer = csv.writer(f, delimiter=",")
     writer.writerows(rows)
 
 
