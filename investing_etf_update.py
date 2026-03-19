@@ -2,18 +2,9 @@ import gspread
 import requests
 from bs4 import BeautifulSoup
 from google.oauth2.service_account import Credentials
-import gspread
-
-scope = ["https://www.googleapis.com/auth/spreadsheets"]
-creds = Credentials.from_service_account_file("etf_portfolio_123456.json", scopes=scope)
-gc = gspread.authorize(creds)
-
 
 # ---------------- CONFIG ----------------
-from pathlib import Path
-
-BASE = Path(__file__).resolve().parent
-SERVICE_ACCOUNT_FILE = BASE / "etf_portfolio_123456.json"
+SERVICE_ACCOUNT_FILE = 'etf_portfolio_123456.json'  # il tuo file JSON corretto
 SPREADSHEET_ID = '1Q0N4f5rY55FgLNLQnpHJKuPjxZshFLOH4PilTa45DPA'  # ID del tuo Google Sheet
 
 ETF_LIST = [
@@ -45,10 +36,10 @@ ETF_LIST = [
     {"ticker": "VAGE", "url": "https://it.investing.com/etfs/vage"}
 ]
 
-# ---------------- GOOGLE SHEETS ----------------
-scope = ['https://spreadsheets.google.com/feeds','https://www.googleapis.com/auth/drive']
-credentials = ServiceAccountCredentials.from_json_keyfile_name(SERVICE_ACCOUNT_FILE, scope)
-gc = gspread.authorize(credentials)
+# ---------------- GOOGLE SHEETS (NUOVA VERSIONE) ----------------
+scope = ["https://www.googleapis.com/auth/spreadsheets"]
+creds = Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=scope)
+gc = gspread.authorize(creds)
 sheet = gc.open_by_key(SPREADSHEET_ID).sheet1
 
 # ---------------- FUNZIONE PREZZO ROBUSTA ----------------
@@ -58,11 +49,9 @@ def get_price_and_change(url):
         r = requests.get(url, headers=headers)
         soup = BeautifulSoup(r.text, 'html.parser')
         
-        # selettori principali
         price_tag = soup.find('span', {'data-test': 'instrument-price-last'})
         var_tag = soup.find('span', {'data-test': 'instrument-price-change-percent'})
         
-        # fallback: selettori generici (più robusti se Investing cambia layout)
         if not price_tag:
             price_tag = soup.select_one('.top.bold.inlineblock')
         if not var_tag:
@@ -72,18 +61,18 @@ def get_price_and_change(url):
         var_pct = var_tag.text.strip() if var_tag else 'N/A'
         
         return price, var_pct
-    except Exception as e:
+    except:
         return 'N/A', 'N/A'
 
 # ---------------- CICLO PRINCIPALE ----------------
-for i, etf in enumerate(ETF_LIST, start=2):  # inizia dalla riga 2
+for i, etf in enumerate(ETF_LIST, start=2):
     ticker = etf['ticker']
     url = etf['url']
     price, var_pct = get_price_and_change(url)
     
-    # Scrive sul foglio usando named arguments per evitare warning
     sheet.update(range_name=f"A{i}", values=[[ticker]])
     sheet.update(range_name=f"B{i}", values=[[price]])
     sheet.update(range_name=f"C{i}", values=[[var_pct]])
     
     print(f"{ticker}: {price} ({var_pct})")
+
