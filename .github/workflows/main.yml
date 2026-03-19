@@ -1,13 +1,30 @@
-name: Test Workflow
+name: Investing ETF update
 
 on:
+  schedule:
+    - cron: '30 17 * * 1-5'
   workflow_dispatch:
 
 jobs:
-  test:
+  run-script:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Hello
-        run: echo "Funziona!"
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Create service_account.json
+        run: echo "${{ secrets.SERVICE_ACCOUNT_JSON }}" > service_account.json
+
+      - name: Run script
+        run: python investing_etf_update.py
