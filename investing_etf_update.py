@@ -1,11 +1,9 @@
 import gspread
 import requests
 from bs4 import BeautifulSoup
-from google.oauth2.service_account import Credentials
 
 # ---------------- CONFIG ----------------
-SERVICE_ACCOUNT_FILE = 'etf_portfolio_123456.json'  # il tuo file JSON corretto
-SPREADSHEET_ID = '1Q0N4f5rY55FgLNLQnpHJKuPjxZshFLOH4PilTa45DPA'  # ID del tuo Google Sheet
+SPREADSHEET_ID = '1Q0N4f5rY55FgLNLQnpHJKuPjxZshFLOH4PilTa45DPA'
 
 ETF_LIST = [
     {"ticker": "DFE", "url": "https://it.investing.com/etfs/wisdomtree-europe-smallcap"},
@@ -36,13 +34,11 @@ ETF_LIST = [
     {"ticker": "VAGE", "url": "https://it.investing.com/etfs/vage"}
 ]
 
-# ---------------- GOOGLE SHEETS (NUOVA VERSIONE) ----------------
-scope = ["https://www.googleapis.com/auth/spreadsheets"]
-creds = Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=scope)
-gc = gspread.authorize(creds)
+# ---------------- GOOGLE SHEETS SENZA LOGIN ----------------
+gc = gspread.Client(None)
 sheet = gc.open_by_key(SPREADSHEET_ID).sheet1
 
-# ---------------- FUNZIONE PREZZO ROBUSTA ----------------
+# ---------------- FUNZIONE PREZZO ----------------
 def get_price_and_change(url):
     try:
         headers = {'User-Agent': 'Mozilla/5.0'}
@@ -75,4 +71,5 @@ for i, etf in enumerate(ETF_LIST, start=2):
     sheet.update(range_name=f"C{i}", values=[[var_pct]])
     
     print(f"{ticker}: {price} ({var_pct})")
+
 
